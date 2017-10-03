@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="app-root" class="starter-template">
+    <h1>Project Starter Template</h1>
+    <p class="lead">This template is my testing ground for dotnet core projects using: WebPack, Vue.js, and Typescript.</p>
+    <p>This project is using dotnet for routing and including Vue Components as page enhancments. This application is not intended as a Vue SPA.</p>
+    <counter></counter>
+</div>
+
+@section scripts {
+    <script src="~/dist/js/main.js" asp-append-version="true"></script>
+}
