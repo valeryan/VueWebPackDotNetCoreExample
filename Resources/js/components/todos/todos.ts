@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
- 
+import axios from 'axios';
+
 interface TodoItem {
     description: string;
     done: boolean;
@@ -10,20 +11,36 @@ interface TodoItem {
 @Component
 export default class TodoComponent extends Vue {
     todos: TodoItem[];
+    dones: TodoItem[];
     newItemDescription: string|null;
  
     data() {
         return {
             todos: [],
+            dones: [],
             newItemDescription: null
         };
     }
 
     mounted() {
-        fetch('/api/todo')
-            .then(response => response.json() as Promise<TodoItem[]>)
+        axios.get('/api/todo', {
+            params: {
+                done: false
+            }
+        })
+            .then(response => response.data as Promise<TodoItem[]>)
             .then(data => {
                 this.todos = data;
+            });
+
+        axios.get('/api/todo', {
+            params: {
+                done: true
+            }
+        })
+            .then(response => response.data as Promise<TodoItem[]>)
+            .then(data => {
+                this.dones = data;
             });
     }
 
@@ -33,15 +50,10 @@ export default class TodoComponent extends Vue {
             event.preventDefault();
         }
 
-        fetch('/api/todo', {
-            method: 'post',
-            body: JSON.stringify(<TodoItem>{ description: this.newItemDescription }),
-            headers: new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            })
+        axios.post('/api/todo', {
+            description: this.newItemDescription
         })
-            .then(response => response.json() as Promise<TodoItem>)
+            .then(response => response.data as Promise<TodoItem>)
             .then((newItem) => {
                 this.todos.push(newItem);
                 this.newItemDescription = null;
@@ -49,15 +61,17 @@ export default class TodoComponent extends Vue {
     }
 
     completeItem(item: TodoItem) {
-        fetch(`/api/todo/${item.id}`, {
-            method: 'delete',
-            headers: new Headers({
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            })
-        })
+        axios.put(`/api/todo/${item.id}`)
             .then(() => {
                 this.todos = this.todos.filter((t) => t.id !== item.id);
+                this.dones.push(item);
+            });
+    }
+
+    deleteItem(item: TodoItem) {
+        axios.delete(`/api/todo/${item.id}`)
+            .then(() => {
+                this.dones = this.dones.filter((t) => t.id !== item.id);
             });
     }
 
