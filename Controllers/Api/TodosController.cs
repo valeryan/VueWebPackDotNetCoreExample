@@ -30,7 +30,7 @@ namespace VueWebpackExample.Controllers.Api
 
         // GET: api/Todo/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTodo([FromRoute] Guid id)
+        public async Task<IActionResult> GetTodo([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace VueWebpackExample.Controllers.Api
 
         // PUT: api/Todo/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTodo([FromRoute] Guid id)
+        public async Task<IActionResult> PutTodo([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace VueWebpackExample.Controllers.Api
 
         // DELETE: api/Todo/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodo([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteTodo([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -120,7 +120,7 @@ namespace VueWebpackExample.Controllers.Api
             return Ok(todo);
         }
 
-        private bool TodoExists(Guid id)
+        private bool TodoExists(int id)
         {
             return _context.Todos.Any(e => e.Id == id);
         }

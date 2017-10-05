@@ -47,7 +47,7 @@ namespace VueWebpackExample
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Pages/Error");
             }
 
             app.UseStaticFiles();
@@ -56,7 +56,7 @@ namespace VueWebpackExample
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Pages}/{action=Index}/{id?}");
 
                 // Not using spa routing right now
                 //routes.MapSpaFallbackRoute(

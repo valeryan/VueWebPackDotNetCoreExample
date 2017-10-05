@@ -11,7 +11,7 @@ using VueWebpackExample.Data;
 namespace VueWebpackExample.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171005141348_InitialCreate")]
+    [Migration("20171005164407_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace VueWebpackExample.Migrations
 
             modelBuilder.Entity("VueWebpackExample.Models.Todo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");

@@ -22,7 +22,7 @@ namespace VueWebpackExample.Migrations
 
             modelBuilder.Entity("VueWebpackExample.Models.Todo", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
