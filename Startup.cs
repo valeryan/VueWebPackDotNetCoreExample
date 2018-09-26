@@ -27,7 +27,7 @@ namespace VueWebpackExample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(option =>
-                option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                option.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
         }

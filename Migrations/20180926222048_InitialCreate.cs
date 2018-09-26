@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace VueWebpackExample.Migrations
 {
@@ -13,10 +11,10 @@ namespace VueWebpackExample.Migrations
                 name: "Todo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Done = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    Done = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
