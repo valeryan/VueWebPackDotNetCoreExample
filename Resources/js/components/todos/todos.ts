@@ -10,9 +10,9 @@ interface TodoItem {
  
 @Component
 export default class TodoComponent extends Vue {
-    todos: TodoItem[];
-    dones: TodoItem[];
-    newItemDescription: string|null;
+    todos!: TodoItem[];
+    dones!: TodoItem[];
+    newItemDescription!: string|null;
  
     data() {
         return {

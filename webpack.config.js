@@ -1,15 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const bundleOutputDir = './wwwroot/dist/js';
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
-    const extractCSS = new ExtractTextPlugin('../css/site.css');
 
     return [{
-        stats: { modules: false },
+        mode: isDevBuild ? 'development' : 'production',
+        stats: {
+            modules: false
+        },
         context: __dirname,
         resolve: {
             extensions: ['.js', '.ts'],
@@ -21,18 +24,35 @@ module.exports = (env) => {
             'main': './Resources/js/boot.ts'
         },
         module: {
-            rules: [
-                { test: /\.vue\.html$/, include: /Resources/, loader: 'vue-loader', options: { loaders: { js: 'awesome-typescript-loader?silent=true' } } },
-                { test: /\.ts$/, include: /Resources/, use: 'awesome-typescript-loader?silent=true' },
-                { 
+            rules: [{
+                    test: /\.vue$/,
+                    include: /Resources/,
+                    loader: 'vue-loader'
+                },
+                {
+                    test: /\.ts$/,
+                    include: /Resources/,
+                    use: 'awesome-typescript-loader?silent=true'
+                },
+                {
                     test: /\.css(\?|$)/,
-                    use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' })
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader'
+                    ]
                 },
                 {
                     test: /\.scss(\?|$)/,
-                    use: extractCSS.extract({ use: isDevBuild ? ['css-loader', 'sass-loader'] : ['css-loader?minimize', 'sass-loader?minimize']})
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        'sass-loader'
+                    ]
                 },
-                { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
+                {
+                    test: /\.(png|jpg|jpeg|gif|svg)$/,
+                    use: 'url-loader?limit=25000'
+                }
             ]
         },
         output: {
@@ -41,7 +61,10 @@ module.exports = (env) => {
             publicPath: 'dist/js/'
         },
         plugins: [
-            extractCSS,
+            new VueLoaderPlugin(),
+            new MiniCssExtractPlugin({
+                filename: "../css/site.css"
+            }),
             new CheckerPlugin(),
             new webpack.DefinePlugin({
                 'process.env': {
