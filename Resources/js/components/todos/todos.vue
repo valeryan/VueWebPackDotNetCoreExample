@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-xs-12">
-                <h1>Things I need to do</h1>
+                <h1>Things to do</h1>
                 <ul v-if="todos.length">
                     <li v-for="item in todos" :key="item.id">
                         {{item.description}} –
@@ -31,7 +31,7 @@
         <hr />
         <div class="row">
             <div class="col-xs-12">
-                <h2>Things I have done</h2>
+                <h2>Things to done</h2>
                 <ul v-if="dones.length">
                     <li v-for="item in dones" :key="item.id">
                         {{item.description}} -

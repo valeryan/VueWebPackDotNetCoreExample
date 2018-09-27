@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,8 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using VueWebpackExample.Data;
 using Microsoft.EntityFrameworkCore;
+using VueWebpackExample.Models;
+using VueWebpackExample.Services;
 
 namespace VueWebpackExample
 {
@@ -29,7 +32,15 @@ namespace VueWebpackExample
             services.AddDbContext<ApplicationDbContext>(option =>
                 option.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+
             services.AddMvc();
+
+            services.Configure<SmtpSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +62,8 @@ namespace VueWebpackExample
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

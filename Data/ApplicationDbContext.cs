@@ -8,7 +8,7 @@ using VueWebpackExample.Models;
 
 namespace VueWebpackExample.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -19,7 +19,11 @@ namespace VueWebpackExample.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.Entity<Todo>().ToTable("Todo");
         }
+
+        public DbSet<VueWebpackExample.Models.ApplicationUser> ApplicationUser { get; set; }
     }
 }
